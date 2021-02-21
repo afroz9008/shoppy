@@ -21,7 +21,10 @@ class Products(models.Model):
     description = models.CharField(max_length=200, default="")
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to="uploades/products/")
-    preparationTime=models.CharField(max_length=50,default=0)
+    preparationTime = models.CharField(max_length=50, default=0)
+
+    def __str__(self):
+        return self.name
 
     @staticmethod
     def get_all_products():
@@ -33,3 +36,20 @@ class Products(models.Model):
             return Products.objects.filter(category=categoryId)
         else:
             return Products.objects.all()
+
+
+class SpecialItems(models.Model):
+    active = models.BooleanField(default=False, name="Active_InActive_SpecialItem")
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200, default="")
+    image = models.ImageField(upload_to="uploades/SpecialItems/")
+    price = models.IntegerField(default=0)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE, default=1)
+    item = models.ForeignKey(Products, on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def get_all_items():
+        return SpecialItems.objects.all()
