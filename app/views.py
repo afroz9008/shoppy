@@ -17,10 +17,7 @@ def productView(request):
     dataJSON = serializers.serialize('json', product)
 
     specialItems = SpecialItems.get_all_items()
-    d = serializers.serialize('json', specialItems)
-    # for card in specialItems:
-        # print(card.fields)
-    print(d)
+    cardJSONData = serializers.serialize('json', specialItems)
     
     return render(
         request,
@@ -30,6 +27,6 @@ def productView(request):
             "jsonProducts":dataJSON,
             "categories": categories,
             "selectedCategoryId": categoryId,
-            "specialCardItems": specialItems,
+            "specialCardItems": cardJSONData,
         },
     )

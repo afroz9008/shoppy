@@ -17,6 +17,15 @@
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"
     />
+    <script
+      src="https://unpkg.com/react@17/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
     <style>
       .pointer {
@@ -26,17 +35,24 @@
         border: 1px solid #e1cfba;
         background: #ecc4934f;
         box-shadow: 2px 3px 8px #0d0d0d38;
-        border-radius:15px;
+        border-radius: 15px;
       }
-      .special-card-image{
-        width:70px;
-        height:70px;
-        border-radius:50px;
+      .special-card-image {
+        width: 70px;
+        height: 70px;
+        border-radius: 50px;
       }
-      .card-item-description{
+      .card-item-description {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        font-size: 13px;
+      }
+      .card-item-title {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 16px;
       }
       .closeCart {
         border: 0;
@@ -198,7 +214,7 @@
         padding: 10px;
         background: #ffb55882;
         width: 100%;
-        z-index: 1;
+        z-index: 2;
         opacity: 1;
         transition: 2s all;
         box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -407,6 +423,10 @@
         .cart-img-container {
           height: 45px;
           width: 45px;
+        }
+        .special-card-image{
+          height:45px;
+          width:45px;
         }
       }
     </style>
