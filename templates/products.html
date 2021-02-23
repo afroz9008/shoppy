@@ -1,5 +1,8 @@
-{% extends 'base.html' %} {% block container %} {% comment %} Special card
-Items{% endcomment %}
+{% extends 'base.html' %} {% block container %}
+
+<div id="autosuggest-react-component"></div>
+
+{% comment %} Special card Items{% endcomment %}
 <div id="cardRoot"></div>
 {% comment %} Special card Items end {% endcomment %}
 
@@ -199,7 +202,7 @@ Items{% endcomment %}
           </div>
         </div>`;
       }
-      fullCartConatiner.innerHTML += `999
+      fullCartConatiner.innerHTML += `
             <div class="cartItemCard my-3 p-1">
               <div class="d-flex">
                 <div class="cart-img-container d-flex justify-content-center">
@@ -408,6 +411,118 @@ Items{% endcomment %}
 </script>
 {% comment %} Use React with Django {% endcomment %}
 <script type="text/babel">
+  const autoSuggestReactComponent = document.getElementById(
+    "autosuggest-react-component"
+  );
+
+  const itemsData = [
+    {
+      name: "Pizza",
+      image: "https://picsum.photos/200/300",
+      price: 100,
+    },
+    {
+      name: "Pizza",
+      image: "https://picsum.photos/300/300",
+      price: 100,
+    },
+    {
+      name: "Pizza",
+      image: "https://picsum.photos/250/200",
+      price: 100,
+    },
+    {
+      name: "Pizza",
+      image: "https://picsum.photos/300/200",
+      price: 100,
+    },
+    {
+      name: "Pizza",
+      image: "https://picsum.photos/220/230",
+      price: 100,
+    },
+    {
+      name: "Pizza",
+      image: "https://picsum.photos/200/400",
+      price: 100,
+    },
+  ];
+
+  const getSuggestions = (value) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0
+      ? []
+      : itemsData.filter((lang) =>
+          lang.name.toLowerCase().includes(inputValue)
+        );
+  };
+
+  const getSuggestionValue = (suggestion) => suggestion.name;
+
+  const renderSuggestion = (suggestion) => (
+    <div className="d-flex align-items-center">
+      <img src={suggestion.image} className="search-item-image" />
+      <span className="search-item-name">{suggestion.name}</span>
+      <span className="search-item-price"> ₹{suggestion.price}</span>
+    </div>
+  );
+
+  class Example extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        value: "",
+        suggestions: [],
+      };
+    }
+
+    onChange = (event, { newValue }) => {
+      this.setState({
+        value: newValue,
+      });
+    };
+
+    onSuggestionsFetchRequested = ({ value }) => {
+      this.setState({
+        suggestions: getSuggestions(value),
+      });
+    };
+
+    onSuggestionsClearRequested = () => {
+      this.setState({
+        suggestions: [],
+      });
+    };
+
+    render() {
+      const { value, suggestions } = this.state;
+      const inputProps = {
+        placeholder: "Search Item...",
+        value,
+        onChange: this.onChange,
+      };
+
+      return (
+        <div className="container d-flex justify-content-center position-relative">
+          <i className="fa fa-search search-icon"></i>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+          />
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(<Example />, autoSuggestReactComponent);
+</script>
+<script type="text/babel">
   const domContainer = document.getElementById("cardRoot");
   const cardDataJson = JSON.parse("{{specialCardItems|escapejs}}");
   const style1 = { maxWidth: 400, minHeight: 140 };
@@ -420,27 +535,27 @@ Items{% endcomment %}
   }
 
   const Card = ({ p, ...props }) => (
-      <div
-        className="special-card flex-grow-1 p-2 bg-white mx-auto row m-md-2 animation-element"
-        style={style1}
-      >
-        <div className="col-8 d-flex flex-column justify-content-center">
-          <h4 className="card-item-title">{p.fields.name}</h4>
-          <h6 className="card-item-description text-muted">
-            {p.fields.description}
-          </h6>
-          <h1 className="item-price d-flex align-items-center mb-0 pb-0">
-            ₹{p.fields.price}
-          </h1>
-        </div>
-        <div className="col-4 d-flex align-items-center justify-content-center">
-          <img
-            src={`/product/${p.fields.image}`}
-            className="card-img-top img-fluid special-card-image"
-            alt="..."
-          />
-        </div>
+    <div
+      className="special-card flex-grow-1 p-2 bg-white mx-auto row m-md-2 animation-element"
+      style={style1}
+    >
+      <div className="col-8 d-flex flex-column justify-content-center">
+        <h4 className="card-item-title">{p.fields.name}</h4>
+        <h6 className="card-item-description text-muted">
+          {p.fields.description}
+        </h6>
+        <h1 className="item-price d-flex align-items-center mb-0 pb-0">
+          ₹{p.fields.price}
+        </h1>
       </div>
+      <div className="col-4 d-flex align-items-center justify-content-center">
+        <img
+          src={`/product/${p.fields.image}`}
+          className="card-img-top img-fluid special-card-image"
+          alt="..."
+        />
+      </div>
+    </div>
   );
 
   const CardContainer = ({ cardData, ...props }) => {
@@ -464,7 +579,7 @@ Items{% endcomment %}
           </div>
 
           <a
-            className="carousel-control-prev"
+            className="carousel-control-prev d-flex align-items-center justify-content-start"
             href="#carouselExampleControls"
             role="button"
             data-slide="prev"
@@ -476,7 +591,7 @@ Items{% endcomment %}
             <span className="sr-only">Previous</span>
           </a>
           <a
-            className="carousel-control-next"
+            className="carousel-control-next d-flex align-items-center justify-content-end"
             href="#carouselExampleControls"
             role="button"
             data-slide="next"
@@ -503,7 +618,7 @@ Items{% endcomment %}
           </div>
 
           <a
-            className="carousel-control-prev"
+            className="carousel-control-prev d-flex align-items-center justify-content-start"
             href="#carouselExampleControls1"
             role="button"
             data-slide="prev"
@@ -515,7 +630,7 @@ Items{% endcomment %}
             <span className="sr-only">Previous</span>
           </a>
           <a
-            className="carousel-control-next"
+            className="carousel-control-next d-flex align-items-center justify-content-end"
             href="#carouselExampleControls1"
             role="button"
             data-slide="next"
