@@ -469,7 +469,7 @@
     </div>
   );
 
-  class Example extends React.Component {
+  class SearchItemComponet extends React.Component {
     constructor() {
       super();
       this.state = {
@@ -520,7 +520,7 @@
     }
   }
 
-  ReactDOM.render(<Example />, autoSuggestReactComponent);
+  ReactDOM.render(<SearchItemComponet />, autoSuggestReactComponent);
 </script>
 <script type="text/babel">
   const domContainer = document.getElementById("cardRoot");
@@ -565,6 +565,7 @@
           id="carouselExampleControls"
           className="carousel slide  d-none d-md-block"
           data-ride="carousel"
+          touch={true}
         >
           <div className="carousel-inner">
             {reducedCardData.map((p, i) => (
@@ -608,7 +609,18 @@
           id="carouselExampleControls1"
           className="carousel slide  d-block d-md-none"
           data-ride="carousel"
+          data-interval="2000"
         >
+          <ol class="carousel-indicators">
+            {cardData.map((p, i) => (
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to={i}
+                onClick={() => $(".carousel").carousel(i)}
+                class={`card-indicator ${!i && "active"}`}
+              ></li>
+            ))}
+          </ol>
           <div className="carousel-inner">
             {cardData.map((p, i) => (
               <div class={`carousel-item p-3 ${!i && "active"}`}>
@@ -616,31 +628,6 @@
               </div>
             ))}
           </div>
-
-          <a
-            className="carousel-control-prev d-flex align-items-center justify-content-start"
-            href="#carouselExampleControls1"
-            role="button"
-            data-slide="prev"
-          >
-            <span
-              className="fa fa-chevron-circle-left text-warning"
-              aria-hidden="true"
-            ></span>
-            <span className="sr-only">Previous</span>
-          </a>
-          <a
-            className="carousel-control-next d-flex align-items-center justify-content-end"
-            href="#carouselExampleControls1"
-            role="button"
-            data-slide="next"
-          >
-            <span
-              className="fa fa-chevron-circle-right text-warning"
-              aria-hidden="true"
-            ></span>
-            <span className="sr-only">Next</span>
-          </a>
         </div>
       </div>
     );

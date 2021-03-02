@@ -28,8 +28,13 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://unpkg.com/react-autosuggest@9.3.2/dist/standalone/autosuggest.js"></script>
     <style>
+      .app-name {
+        font-family: chiller;
+        font-size: 40px;
+        color: #ff9500;
+      }
       .react-autosuggest__container {
-        width: 90%;
+        width: 100%;
         margin: 14px 0;
         box-shadow: 3px 3px 3px #ccc;
         border-radius: 50px;
@@ -43,26 +48,35 @@
       .search-icon {
         position: absolute;
         z-index: 1;
-        left: 50px;
-        top: 28px;
+        left: 30px;
+        top: 27.4px;
         color: #ff8e00;
       }
-
-      .search-item-image{
-        width:30px;
-        height:30px;
-        border-radius:50px;
-        margin:8px;
+      .card-indicator {
+        background-color: #ffebd2 !important;
+        border-radius: 50px !important;
+        height: 12px !important;
+        transition: 1s all;
+        width: 12px !important;
       }
-      .search-item-name{
-        font-size:19px;
-        color:#ff8e00;
+      .card-indicator.active {
+        background-color: #ff8e00 !important;
       }
-      .search-item-price{
-        margin-left:auto;
-        margin-right:10px;
-        color:black;
-        font-size:20px;
+      .search-item-image {
+        width: 30px;
+        height: 30px;
+        border-radius: 50px;
+        margin: 8px;
+      }
+      .search-item-name {
+        font-size: 19px;
+        color: #ff8e00;
+      }
+      .search-item-price {
+        margin-left: auto;
+        margin-right: 10px;
+        color: black;
+        font-size: 20px;
       }
 
       .react-autosuggest__suggestions-container--open {
@@ -74,10 +88,10 @@
         padding-top: 20px;
         z-index: 3;
       }
-      .react-autosuggest__suggestions-list{
-        list-style:none;
-        margin-left:0;
-        padding-left:5px;
+      .react-autosuggest__suggestions-list {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 5px;
       }
       .react-autosuggest__input--open {
         padding-bottom: 30px !important;
@@ -497,24 +511,23 @@
         }
       }
     </style>
-    <link rel="icon" href="static/assets/favicon.jpg" type="image/icon type" />
+    <link rel="icon" href="static/assets/favicon.png" type="image/icon type" />
     {% comment %}
     <link rel="stylesheet" href="static/css/index.css" />
     {% endcomment %}
-    <title>Shoppy</title>
+    <title>Foodzy</title>
   </head>
   <body id="root">
     <nav class="navbar navbar-light">
-      <div class="container-fluid">
+      <div class="container-fluid p-0 p-sm-2">
         <a class="navbar-brand d-flex align-items-center" href="#">
-          <img
-            src="static/assets/favicon.jpg"
+          {% comment %} <img
+            src="static/assets/favicon.png"
             alt=""
             width="50px"
             class="d-inline-block align-top img-fluid animation-element"
-            style="filter: hue-rotate(-56deg)"
-          />
-          <span class="mx-1">Shoppy</span>
+          /> {% endcomment %}
+          <span class="mx-1 app-name">Foodzy</span>
         </a>
         <div class="">
           <ul class="navbar-nav d-flex flex-row">

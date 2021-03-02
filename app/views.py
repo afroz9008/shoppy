@@ -4,42 +4,42 @@ from django.core import serializers
 from rest_framework.generics import ListAPIView,CreateAPIView,DestroyAPIView 
 from .serializers import ProductsSerializers,CategorySerializers,CardSerializers
 
-# Create your views here.
+# Get all Products Api
 class ProductApiView(ListAPIView):
     queryset = Products.objects.all()
     serializer_class=ProductsSerializers
-# Create your views here.
+# Create Products Api
 class ProductCreateApiView(CreateAPIView):
     queryset = Products.objects.all()
     serializer_class=ProductsSerializers
-# Create your views here.
+# Delete Products Api
 class ProductDeleteApiView(DestroyAPIView):
     queryset = Products.objects.all()
     serializer_class=ProductsSerializers
 
-# Create your views here.
+# Get all Category Api.
 class CategoryApiView(ListAPIView):
     queryset = Categories.objects.all()
     serializer_class=CategorySerializers
-# Create your views here.
+# Create Category Api
 class CategoryCreateApiView(CreateAPIView):
     queryset = Categories.objects.all()
     serializer_class=CategorySerializers
-# Create your views here.
+# Delete Category Api
 class CategoryDeleteApiView(DestroyAPIView):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializers
     
 
-# Create your views here.
+# Card List Api
 class CardApiView(ListAPIView):
     queryset = SpecialItems.objects.all()
     serializer_class=CardSerializers
-# Create your views here.
+# create Card Api.
 class CardCreateApiView(CreateAPIView):
     queryset = SpecialItems.objects.all()
     serializer_class=CardSerializers
-# Create your views here.
+# Delete Card Api.
 class CardDeleteApiView(DestroyAPIView):
     queryset = SpecialItems.objects.all()
     serializer_class=CardSerializers
