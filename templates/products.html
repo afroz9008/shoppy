@@ -161,10 +161,6 @@
       "cartTotalItems"
     ).innerText = `(${localCart.length})`;
 
-    if (localCart?.length && type !== "close") {
-      fullScreenCart.classList.add("activeCart");
-    } else fullScreenCart.classList.remove("activeCart");
-
     if (slide) {
       if (display === "flex") {
         cartC.style.opacity = "1";
@@ -351,7 +347,7 @@
 
     localStorage.setItem("cartdata", JSON.stringify(carts));
     displayCart(carts);
-    cartTogglee();
+    cartTogglee(false,false,'close');
   };
 
   const displayCart = (allCart = carts) => {
