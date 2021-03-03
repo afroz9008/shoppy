@@ -37,6 +37,13 @@ class Products(models.Model):
         else:
             return Products.objects.all()
 
+    @staticmethod
+    def get_product_by_id(productId):
+        if productId:
+            return Products.objects.filter(id=productId)
+        else:
+            return []
+
 
 class SpecialItems(models.Model):
     active = models.BooleanField(default=False, name="Active_InActive_SpecialItem")

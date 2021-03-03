@@ -28,6 +28,37 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script src="https://unpkg.com/react-autosuggest@9.3.2/dist/standalone/autosuggest.js"></script>
     <style>
+      .orderNow-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 3;
+        background: #ff8e00 !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16) !important;
+        margin: auto 0 auto 0;
+        border: 0;
+        min-width: 80px;
+        display: none;
+        justify-content: center;
+        font-size: 22px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 50px;
+        color: white;
+        transition: 2s all;
+        animation: orderBtnAnimation 2s ease-in;
+      }
+      @keyframes orderBtnAnimation {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .activeCart + .orderNow-btn {
+        display: flex;
+      }
       .app-name {
         font-family: chiller;
         font-size: 40px;
@@ -51,6 +82,9 @@
         left: 30px;
         top: 27.4px;
         color: #ff8e00;
+      }
+      .carousel-indicators{
+        z-index:1 !important;
       }
       .card-indicator {
         background-color: #ffebd2 !important;
@@ -155,7 +189,7 @@
         border: 1px solid rgba(255, 255, 255, 0.18);
         width: 100%;
         z-index: 2;
-        transform: translateY(100vh);
+        transform: translateY(200vh);
         background: #ffebd2c7;
         backdrop-filter: blur(12px);
       }
@@ -458,20 +492,22 @@
         }
       }
       @media (max-width: 576px) {
-        .category-name {
-          font-size: 14px;
-          margin-bottom: 0;
+        .orderNow-btn {
+          bottom: 12px;
+          right: 19px;
+          font-size: 17px;
+          padding: 5px 10px;
         }
-        .circle {
-          height: 45px;
-          width: 45px;
+        .category-name {
+          font-size: 12px;
+          margin-bottom: 0;
         }
         .collapseCategory {
           font-size: 17px;
         }
         .circle {
-          height: 35px;
-          width: 35px;
+          height: 28px;
+          width: 28px;
         }
         .footer-img {
           height: 32px;
@@ -502,7 +538,7 @@
       }
       @media (max-width: 375px) {
         .cart-img-container {
-          height: 45px;
+          height: 57px;
           width: 45px;
         }
         .special-card-image {
@@ -520,22 +556,24 @@
   <body id="root">
     <nav class="navbar navbar-light">
       <div class="container-fluid p-0 p-sm-2">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-          {% comment %} <img
+        <a class="navbar-brand d-flex align-items-center" href="/">
+          {% comment %}
+          <img
             src="static/assets/favicon.png"
             alt=""
             width="50px"
             class="d-inline-block align-top img-fluid animation-element"
-          /> {% endcomment %}
+          />
+          {% endcomment %}
           <span class="mx-1 app-name">Foodzy</span>
         </a>
         <div class="">
           <ul class="navbar-nav d-flex flex-row">
             <li class="nav-item mx-1">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item mx-1">
-              <a class="nav-link" href="#">Orders</a>
+              <a class="nav-link" href="orders">Orders</a>
             </li>
           </ul>
         </div>

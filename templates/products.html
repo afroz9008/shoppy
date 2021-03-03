@@ -70,10 +70,14 @@
     </span>
   </p>
 </div>
+
 <div class="container p-3 mb-5">
   <div class="row my-3">
     {% for product in products%}
-    <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 item pb-3 px-2 item">
+    <div
+      onclick='itemDetailOpener("{{product.id}}")'
+      class="pointer col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 item pb-3 px-2 item"
+    >
       <div class="card shadow product">
         <div class="d-flex justify-content-center">
           <img
@@ -113,14 +117,13 @@
     {% endfor %}
   </div>
 </div>
-
 <div class="hid-box" id="fullCartContainer">
   <div
     class="d-flex w-100 p-2 justify-content-start closeCart align-content-center"
   >
     <button
       class="closeCart pointer"
-      onclick="cartTogglee('translateY(100vh)','flex','close')"
+      onclick="cartTogglee('translateY(200vh)','flex','close')"
     >
       <i class="fa fa-chevron-down"></i>
     </button>
@@ -130,6 +133,10 @@
   </div>
   <div class="container" id="fullScreenCart"></div>
 </div>
+<button class="orderNow-btn">
+  Order Now
+</button>
+
 
 {%endblock%} {% block script %}
 <script>
@@ -140,6 +147,11 @@
   const data = JSON.parse("{{jsonProducts|escapejs}}");
   const carts = JSON.parse(localStorage.getItem("cartdata"));
 
+  const itemDetailOpener = (id) => {
+    console.log(id);
+    location.replace(`detail/${id}`);
+  };
+
   const cartTogglee = (slide = false, display = false, type = false) => {
     const cartC = document.getElementById("cart-container");
     const bodyElement = document.getElementById("root");
@@ -148,6 +160,10 @@
     document.getElementById(
       "cartTotalItems"
     ).innerText = `(${localCart.length})`;
+
+    if(localCart?.length && type!=='close'){
+      fullScreenCart.classList.add('activeCart')
+    }else fullScreenCart.classList.remove('activeCart')
 
     if (slide) {
       if (display === "flex") {
@@ -161,13 +177,13 @@
     }
 
     const fullCartConatiner = document.getElementById("fullScreenCart");
-    fullCartConatiner.innerHTML = "";
+    fullCartConatiner.innerHTML = ``;
     if (!localCart?.length) {
       fullCartConatiner.innerHTML = `<div>
         <h3 class='text-muted text-center p-4'>Cart Is Empty</h3>
           <button
             class="m-auto px-2 text-light category cartBtn active-class"
-            onclick="cartTogglee('translateY(100vh)','flex','close')"
+            onclick="cartTogglee('translateY(200vh)','flex','close')"
           >
           Go to Home
         </button>

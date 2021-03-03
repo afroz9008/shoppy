@@ -19,6 +19,8 @@ from app import views
 
 urlpatterns = [
     path('', views.productView, name = '/'),
+    path('orders/', views.ordersHistoryView),
+    path('detail/<int:id>', views.itemDetailView),
     path('api/products/',views.ProductApiView.as_view()),
     path('api/products/create/',views.ProductCreateApiView.as_view()),
     path('api/products/delete/<int:id>',views.ProductDeleteApiView.as_view()),

@@ -72,3 +72,13 @@ def productView(request):
             "specialCardItems": cardJSONData,
         },
     )
+
+
+def ordersHistoryView(request):
+    return render(request,"history.html")
+
+def itemDetailView(request,id):
+    print(request, id)
+    product = Products.get_product_by_id(id)
+    print(product)
+    return render(request,"itemDetail.html",{ "product": product})
