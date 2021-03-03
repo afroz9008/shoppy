@@ -75,8 +75,8 @@
   <div class="row my-3">
     {% for product in products%}
     <div
-      onclick='itemDetailOpener("{{product.id}}")'
-      class="pointer col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 item pb-3 px-2 item"
+      onclick='itemDetailOpener(event,"{{product.id}}")'
+      class="pointer col-6 co.bubbles=falsel-sm-6 col-md-3 col-lg-3 col-xl-3 item pb-3 px-2 item"
     >
       <div class="card shadow product">
         <div class="d-flex justify-content-center">
@@ -101,7 +101,7 @@
               <div class="col-6 d-flex justify-content-center p-0">
                 <div class="ml-auto" id="product-{{product.id}}">
                   <div
-                    onclick="addToCart({{product.id}})"
+                    onclick="addToCart(event,{{product.id}})"
                     class="itemsquare d-flex justify-content-center align-items-center"
                     style="height: 30px; width: 30px"
                   >
@@ -131,12 +131,13 @@
       My Cart<span id="cartTotalItems" class="px-1"></span>
     </h3>
   </div>
-  <div class="container" id="fullScreenCart"></div>
+  <div
+    class="container d-flex flex-column"
+    style="height: 90%"
+    id="fullScreenCart"
+  ></div>
 </div>
-<button class="orderNow-btn">
-  Order Now
-</button>
-
+<button class="orderNow-btn">Order Now</button>
 
 {%endblock%} {% block script %}
 <script>
@@ -147,8 +148,7 @@
   const data = JSON.parse("{{jsonProducts|escapejs}}");
   const carts = JSON.parse(localStorage.getItem("cartdata"));
 
-  const itemDetailOpener = (id) => {
-    console.log(id);
+  const itemDetailOpener = (event,id) => {
     location.replace(`detail/${id}`);
   };
 
@@ -161,9 +161,9 @@
       "cartTotalItems"
     ).innerText = `(${localCart.length})`;
 
-    if(localCart?.length && type!=='close'){
-      fullScreenCart.classList.add('activeCart')
-    }else fullScreenCart.classList.remove('activeCart')
+    if (localCart?.length && type !== "close") {
+      fullScreenCart.classList.add("activeCart");
+    } else fullScreenCart.classList.remove("activeCart");
 
     if (slide) {
       if (display === "flex") {
@@ -179,7 +179,7 @@
     const fullCartConatiner = document.getElementById("fullScreenCart");
     fullCartConatiner.innerHTML = ``;
     if (!localCart?.length) {
-      fullCartConatiner.innerHTML = `<div>
+      fullCartConatiner.innerHTML = `<div class="m-auto animation-element">
         <h3 class='text-muted text-center p-4'>Cart Is Empty</h3>
           <button
             class="m-auto px-2 text-light category cartBtn active-class"
@@ -235,7 +235,7 @@
                       <h3 class="cart-item-title m-0">₹${p.fields.price}</h3>
                       <div>
                         <div class="d-flex delete-contain">
-                           <button  onclick='quantityHandler(${
+                           <button  onclick='quantityHandler(event,${
                              p.pk
                            },"decreament","cart")' class="btn  detail-increment-item d-flex justify-content-center align-items-center remove-to-cart-informer">
                             ${
@@ -247,7 +247,7 @@
                           <p class="cart-item1 px-sm-2 px-1 px-md-1 px-lg-1 px-xl-3 mb-0">${
                             p.fields.quantity
                           }</p>
-                          <button onclick='quantityHandler(${
+                          <button onclick='quantityHandler(event,${
                             p.pk
                           },"increament","cart")' class="btn  detail-increment-item d-flex justify-content-center align-items-center increment-to-cart-informer">
                               <i class="fa fa-plus" aria-hidden="true"></i>
@@ -263,7 +263,8 @@
     });
   };
 
-  const addToCart = (id) => {
+  const addToCart = (event,id) => {
+    window.event.stopPropagation()
     const localCart = JSON.parse(localStorage.getItem("cartdata"));
     let product = data.find((p) => p.pk === id);
     product.fields.quantity = 1;
@@ -289,7 +290,8 @@
     displayCart(carts);
   };
 
-  const quantityHandler = (id, type, isCart = false) => {
+  const quantityHandler = (event,id, type, isCart = false) => {
+    window.event.stopPropagation()
     const localCart = JSON.parse(localStorage.getItem("cartdata"));
 
     let carts = [];
@@ -329,7 +331,7 @@
         localCart.splice(isFoundItem, 1);
         const quantityDisplayer = document.getElementById(`product-${id}`);
         quantityDisplayer.innerHTML = `<div class="ml-auto" id="product-${id}">
-              <div  onclick=addToCart(${id}) class="itemsquare d-flex justify-content-center align-items-center"  style="height: 30px; width: 30px">
+              <div onclick="addToCart(event,${id})" class="itemsquare d-flex justify-content-center align-items-center"  style="height: 30px; width: 30px">
                 <i class="fa fa-cart-plus"></i>
               </div>
             </div>`;
@@ -337,7 +339,7 @@
         const quantityDisplayer = document.getElementById(`product-${id}`);
         if (quantityDisplayer) {
           quantityDisplayer.innerHTML = `<div class="ml-auto" id="product-${id}">
-              <div  onclick=addToCart(${id}) class="itemsquare d-flex justify-content-center align-items-center"  style="height: 30px; width: 30px">
+              <div  onclick="addToCart(event,${id})" class="itemsquare d-flex justify-content-center align-items-center"  style="height: 30px; width: 30px">
                 <i class="fa fa-cart-plus"></i>
               </div>
             </div>`;
@@ -369,7 +371,7 @@
 
       if (quantityDisplayer)
         quantityDisplayer.innerHTML = `<div><div class="row delete-contain">
-             <button  onclick='quantityHandler(${
+             <button  onclick='quantityHandler(event,${
                p.pk
              },"decreament")' class="btn  detail-increment-item d-flex justify-content-center align-items-center remove-to-cart-informer">
                 ${
@@ -381,7 +383,7 @@
              <p class="cart-item1 px-sm-2 px-1 px-md-1 px-lg-1 px-xl-3 mb-0">${
                p.fields.quantity
              }</p>
-             <button onclick='quantityHandler(${
+             <button onclick='quantityHandler(event,${
                p.pk
              },"increament")' class="btn  detail-increment-item d-flex justify-content-center align-items-center increment-to-cart-informer">
                  <i class="fa fa-plus" aria-hidden="true"></i>
